@@ -4,7 +4,7 @@
   "version": "0.0.7",
   "scripts": {
     "start": "gatsby develop",
-    "build": "gatsby build"
+    "build": "gatsby build && cp _redirects public/_redirects"
   },
   "dependencies": {
     "@chakra-ui/core": "^0.6.1",
