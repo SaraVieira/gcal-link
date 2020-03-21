@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/core";
 import { Helmet } from "react-helmet";
 import Form from "../components/form";
-import { MoonIcon, SunIcon, Logo, GHIcon } from "../components/icons";
+import { Logo, GHIcon } from "../components/icons";
 
 const IndexPage = () => {
   return (
