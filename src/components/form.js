@@ -111,7 +111,6 @@ export default function HookForm() {
             onChange={e => setEventDescription(e.target.value)}
             name="description"
             placeholder="Event Description"
-            required
           />
         </FormControl>
         <Button
@@ -126,12 +125,14 @@ export default function HookForm() {
       {links && (
         <Box mt={6}>
           <Heading pb={3}>Links</Heading>
-          <Text>
-            Short: <Code>{links.shortUrl}</Code>
-          </Text>
-          <Text>
-            Long: <Code>{links.url}</Code>
-          </Text>
+          <FormControl>
+            <FormLabel>Short:</FormLabel>
+            <Input onClick={e => e.target.select()} value={links.shortUrl} />
+          </FormControl>
+          <FormControl mt={2}>
+            <FormLabel>Long:</FormLabel>
+            <Input onClick={e => e.target.select()} value={links.url} />
+          </FormControl>
         </Box>
       )}
     </>

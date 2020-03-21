@@ -14,6 +14,7 @@ import { MoonIcon, SunIcon, Logo, GHIcon } from "../components/icons";
 
 const IndexPage = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  console.log(colorMode);
   return (
     <>
       <Helmet>
@@ -24,7 +25,7 @@ const IndexPage = () => {
           content="Easily generate sharable google calendar links"
         />
       </Helmet>
-      <Box maxWidth="80%" width="1200" margin="auto" p={5}>
+      <Box maxWidth="80%" width="1200" margin="auto" p={5} pb={10}>
         <Flex justifyContent="space-between">
           <Heading size="md" mb={5}>
             <Logo width={50} height={50} />
