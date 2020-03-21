@@ -5,11 +5,12 @@ import {
   Heading,
   useColorMode,
   Flex,
-  Text
+  Text,
+  Link
 } from "@chakra-ui/core";
 import { Helmet } from "react-helmet";
 import Form from "../components/form";
-import { MoonIcon, SunIcon, Logo } from "../components/icons";
+import { MoonIcon, SunIcon, Logo, GHIcon } from "../components/icons";
 
 const IndexPage = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -28,7 +29,7 @@ const IndexPage = () => {
           <Heading size="md" mb={5}>
             <Logo width={50} height={50} />
           </Heading>
-          <Box>
+          <Flex>
             <Button variant="ghost" onClick={toggleColorMode}>
               {colorMode === "dark" ? (
                 <SunIcon width={26} height={26} />
@@ -36,7 +37,12 @@ const IndexPage = () => {
                 <MoonIcon width={26} height={26} />
               )}
             </Button>
-          </Box>
+            <Button variant="ghost">
+              <Link to="https://github.com/SaraVieira/gcal-link">
+                <GHIcon width={22} height={22} />
+              </Link>
+            </Button>
+          </Flex>
         </Flex>
         <Text>
           Create Google Calendar Links to share with anyone and also get a
