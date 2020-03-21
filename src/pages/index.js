@@ -8,7 +8,7 @@ import {
   Text
 } from "@chakra-ui/core";
 import { Helmet } from "react-helmet";
-import Form from "../components/Form";
+import Form from "../components/form";
 import { MoonIcon, SunIcon, Logo } from "../components/icons";
 
 const IndexPage = () => {
