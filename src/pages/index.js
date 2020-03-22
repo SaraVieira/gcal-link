@@ -13,6 +13,7 @@ import Form from "../components/form";
 import { Logo, GHIcon } from "../components/icons";
 
 const IndexPage = () => {
+  if (typeof window === "undefined") return null;
   return (
     <DarkMode>
       <Helmet>

@@ -13,7 +13,14 @@ export default function HTML(props) {
         />
         {props.headComponents}
       </head>
-      <body {...props.bodyAttributes} className="dark-mode">
+      <body
+        style={{
+          lineHeight: "1.5",
+          color: "rgba(255, 255, 255, 0.92)",
+          backgroundColor: "rgb(26, 32, 44)"
+        }}
+        {...props.bodyAttributes}
+      >
         {props.preBodyComponents}
         <noscript key="noscript" id="gatsby-noscript">
           This app works best with JavaScript enabled.
