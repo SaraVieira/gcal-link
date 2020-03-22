@@ -22,7 +22,7 @@ exports.handler = async (event, context) => {
     const endDate = `${data.eventDate} ${data.endTime.split(0, 2).join(":")}`;
     const UTCDateStart = moment.tz(startDate, data.timezone);
     const UTCDateEnd = moment.tz(endDate, data.timezone);
-    UTCDate = `${getFormattedDate(UTCDateStart)}|${getFormattedDate(
+    UTCDate = `${getFormattedDate(UTCDateStart)}/${getFormattedDate(
       UTCDateEnd
     )}`;
   } else {
