@@ -33,7 +33,7 @@ exports.handler = async (event, context) => {
   const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${data.name}&dates=${UTCDate}&details=${data.eventDescription}`;
   const short = shortid.generate();
 
-  fetch("https://legitbackend.wtf/gcal_urls", {
+  await fetch("https://legitbackend.wtf/gcal_urls", {
     method: "POST",
     headers: {
       "content-type": "application/json"
