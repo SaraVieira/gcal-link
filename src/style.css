@@ -1,0 +1,16 @@
+body {
+  line-height: 1.5 !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+  background-color: rgb(26, 32, 44) !important;
+}
+
+input,
+textarea,
+select,
+.chakra-checkbox__control {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
