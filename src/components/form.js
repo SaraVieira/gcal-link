@@ -8,64 +8,38 @@ import {
   Checkbox,
   Box,
   Textarea,
-  Heading,
   useClipboard,
   useToast,
 } from "@chakra-ui/react";
 import Times from "./times";
-import moment from "moment-timezone";
-import { CopyIcon } from "./icons";
+
+import { CopyIcon, OpenLinkIcon } from "./icons";
+import { useForm } from "../store";
 
 export default function HookForm() {
-  const now =
-    new Date().getFullYear() +
-    "-" +
-    ("0" + (new Date().getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + new Date().getDate()).slice(-2);
-  const [allDay, setAllDay] = useState(false);
-  const [startTime, setStartTime] = useState("1200");
-  const [endTime, setEndTime] = useState("1300");
-  const [eventName, setEventName] = useState("");
-  const [eventDate, setEventDate] = useState(now);
-  const [eventDescription, setEventDescription] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [links, setLinks] = useState({});
-  const { onCopy: onCopyShort, hasCopied: hasCopiedShort } = useClipboard(
-    links.shortUrl
-  );
-  const { onCopy: onCopyLong, hasCopied: hasCopiedLong } = useClipboard(
-    links.url
-  );
   const toast = useToast();
-
-  async function onSubmit(e) {
-    e.preventDefault();
-    setIsSubmitting(true);
-    const data = await fetch("api/create", {
-      method: "POST",
-      body: JSON.stringify({
-        name: eventName,
-        startTime,
-        endTime,
-        timezone: moment.tz.guess(),
-        eventDate,
-        eventDescription,
-        allDay,
-      }),
-    }).then((d) => d.json());
-    setIsSubmitting(false);
-    setLinks(data);
-  }
+  const {
+    allDay,
+    startTime,
+    endTime,
+    eventName,
+    eventDate,
+    eventDescription,
+    isSubmitting,
+    links,
+    setField,
+    onSubmit,
+  } = useForm();
+  const { onCopy, hasCopied } = useClipboard(links.url);
 
   useEffect(() => {
-    if (hasCopiedShort || hasCopiedLong) {
+    if (hasCopied) {
       toast({
         title: "Copied to Clipboard",
         status: "success",
       });
     }
-  }, [hasCopiedShort, hasCopiedLong]);
+  }, [hasCopied]);
 
   return (
     <>
@@ -74,7 +48,9 @@ export default function HookForm() {
           <FormLabel htmlFor="name">Event name</FormLabel>
           <Input
             value={eventName}
-            onChange={(e) => setEventName(e.target.value)}
+            onChange={(e) =>
+              setField({ key: "eventName", value: e.target.value })
+            }
             name="eventName"
             placeholder="Event Name"
             required
@@ -85,7 +61,9 @@ export default function HookForm() {
           <Input
             type="date"
             value={eventDate}
-            onChange={(e) => setEventDate(e.target.value)}
+            onChange={(e) =>
+              setField({ key: "eventDate", value: e.target.value })
+            }
             name="eventDate"
             placeholder="Event Date"
             required
@@ -95,7 +73,9 @@ export default function HookForm() {
           <FormLabel display="block">Is this event all day?</FormLabel>
           <Checkbox
             checked={allDay}
-            onChange={(e) => setAllDay(e.target.checked)}
+            onChange={(e) =>
+              setField({ key: "allDay", value: e.target.checked })
+            }
           >
             Yes, All Day
           </Checkbox>
@@ -108,14 +88,18 @@ export default function HookForm() {
                 <FormLabel>Start</FormLabel>
                 <Times
                   value={startTime}
-                  onChange={(e) => setStartTime(e.target.value)}
+                  onChange={(e) =>
+                    setField({ key: "startTime", value: e.target.value })
+                  }
                 />
               </Box>
               <Box>
                 <FormLabel>End</FormLabel>
                 <Times
                   value={endTime}
-                  onChange={(e) => setEndTime(e.target.value)}
+                  onChange={(e) =>
+                    setField({ key: "endTime", value: e.target.value })
+                  }
                 />
               </Box>
             </Flex>
@@ -125,7 +109,9 @@ export default function HookForm() {
           <FormLabel htmlFor="description">Description</FormLabel>
           <Textarea
             value={eventDescription}
-            onChange={(e) => setEventDescription(e.target.value)}
+            onChange={(e) =>
+              setField({ key: "eventDescription", value: e.target.value })
+            }
             name="description"
             placeholder="Event Description"
           />
@@ -139,12 +125,12 @@ export default function HookForm() {
           <FormControl mt={2}>
             <Box position="relative">
               <Input
-                paddingRight={46}
+                style={{ paddingRight: 80 }}
                 onClick={(e) => e.target.select()}
                 value={links.url}
               />
               <CopyIcon
-                onClick={onCopyLong}
+                onClick={onCopy}
                 style={{
                   cursor: "pointer",
                   position: "absolute",
@@ -154,6 +140,18 @@ export default function HookForm() {
                   top: 8,
                 }}
               />
+              <a href={links.url} target="blank" rel="noreferrer">
+                <OpenLinkIcon
+                  style={{
+                    cursor: "pointer",
+                    position: "absolute",
+                    width: 26,
+                    height: 26,
+                    right: 48,
+                    top: 8,
+                  }}
+                />
+              </a>
             </Box>
           </FormControl>
         </Box>
