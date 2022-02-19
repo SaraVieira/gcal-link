@@ -3,24 +3,20 @@
   "private": true,
   "version": "0.0.7",
   "scripts": {
-    "start": "gatsby develop",
-    "build": "gatsby build && cp _redirects public/_redirects"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
-    "@chakra-ui/core": "^0.6.1",
-    "@emotion/core": "^10.0.28",
-    "@emotion/styled": "^10.0.27",
-    "emotion-theming": "^10.0.27",
-    "gatsby": "2.20.2",
-    "gatsby-plugin-chakra-ui": "^0.1.4",
-    "gatsby-plugin-create-client-paths": "^2.2.0",
-    "gatsby-plugin-emoji-favicon": "^1.4.1",
-    "gatsby-plugin-react-helmet": "^3.2.0",
-    "moment-timezone": "^0.5.28",
-    "node-fetch": "^2.6.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-helmet": "^5.2.1",
-    "shortid": "^2.2.15"
+    "@chakra-ui/gatsby-plugin": "^2.0.3",
+    "@chakra-ui/react": "^1.8.3",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "framer-motion": "^6",
+    "moment-timezone": "^0.5.34",
+    "react-helmet": "^6.1.0",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
   }
 }

@@ -88,3 +88,21 @@ export const Logo = props => (
     />
   </svg>
 );
+
+export const CopyIcon = props => (
+  <svg
+    width={100}
+    height={100}
+    x={0}
+    y={0}
+    enableBackground="new 0 0 100 100"
+    viewBox="0 0 100 100"
+    {...props}
+  >
+    <style>{".st0{fill:currentColor;}"}</style>
+    <path
+      d="M80 25H70V12.5C70 8.4 66.6 5 62.5 5H20c-4.1 0-7.5 3.4-7.5 7.5V65c0 4.1 3.4 7.5 7.5 7.5h10V85c0 4.1 3.4 7.5 7.5 7.5H80c4.1 0 7.5-3.4 7.5-7.5V32.5c0-4.1-3.4-7.5-7.5-7.5zm-50 7.5V65H20V12.5h42.5V25h-25c-4.1 0-7.5 3.4-7.5 7.5zM80 85H37.5V32.5H80V85z"
+      className="st0"
+    />
+  </svg>
+);

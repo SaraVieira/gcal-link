@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormLabel,
   FormControl,
@@ -9,11 +9,12 @@ import {
   Box,
   Textarea,
   Heading,
-  Text,
-  Code
-} from "@chakra-ui/core";
+  useClipboard,
+  useToast,
+} from "@chakra-ui/react";
 import Times from "./times";
 import moment from "moment-timezone";
+import { CopyIcon } from "./icons";
 
 export default function HookForm() {
   const now =
@@ -29,12 +30,19 @@ export default function HookForm() {
   const [eventDate, setEventDate] = useState(now);
   const [eventDescription, setEventDescription] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [links, setLinks] = useState();
+  const [links, setLinks] = useState({});
+  const { onCopy: onCopyShort, hasCopied: hasCopiedShort } = useClipboard(
+    links.shortUrl
+  );
+  const { onCopy: onCopyLong, hasCopied: hasCopiedLong } = useClipboard(
+    links.url
+  );
+  const toast = useToast();
 
   async function onSubmit(e) {
     e.preventDefault();
     setIsSubmitting(true);
-    const data = await fetch(".netlify/functions/create", {
+    const data = await fetch("api/create", {
       method: "POST",
       body: JSON.stringify({
         name: eventName,
@@ -43,12 +51,21 @@ export default function HookForm() {
         timezone: moment.tz.guess(),
         eventDate,
         eventDescription,
-        allDay
-      })
-    }).then(d => d.json());
+        allDay,
+      }),
+    }).then((d) => d.json());
     setIsSubmitting(false);
     setLinks(data);
   }
+
+  useEffect(() => {
+    if (hasCopiedShort || hasCopiedLong) {
+      toast({
+        title: "Copied to Clipboard",
+        status: "success",
+      });
+    }
+  }, [hasCopiedShort, hasCopiedLong]);
 
   return (
     <>
@@ -57,7 +74,7 @@ export default function HookForm() {
           <FormLabel htmlFor="name">Event name</FormLabel>
           <Input
             value={eventName}
-            onChange={e => setEventName(e.target.value)}
+            onChange={(e) => setEventName(e.target.value)}
             name="eventName"
             placeholder="Event Name"
             required
@@ -68,7 +85,7 @@ export default function HookForm() {
           <Input
             type="date"
             value={eventDate}
-            onChange={e => setEventDate(e.target.value)}
+            onChange={(e) => setEventDate(e.target.value)}
             name="eventDate"
             placeholder="Event Date"
             required
@@ -78,7 +95,7 @@ export default function HookForm() {
           <FormLabel display="block">Is this event all day?</FormLabel>
           <Checkbox
             checked={allDay}
-            onChange={e => setAllDay(e.target.checked)}
+            onChange={(e) => setAllDay(e.target.checked)}
           >
             Yes, All Day
           </Checkbox>
@@ -91,14 +108,14 @@ export default function HookForm() {
                 <FormLabel>Start</FormLabel>
                 <Times
                   value={startTime}
-                  onChange={e => setStartTime(e.target.value)}
+                  onChange={(e) => setStartTime(e.target.value)}
                 />
               </Box>
               <Box>
                 <FormLabel>End</FormLabel>
                 <Times
                   value={endTime}
-                  onChange={e => setEndTime(e.target.value)}
+                  onChange={(e) => setEndTime(e.target.value)}
                 />
               </Box>
             </Flex>
@@ -108,30 +125,36 @@ export default function HookForm() {
           <FormLabel htmlFor="description">Description</FormLabel>
           <Textarea
             value={eventDescription}
-            onChange={e => setEventDescription(e.target.value)}
+            onChange={(e) => setEventDescription(e.target.value)}
             name="description"
             placeholder="Event Description"
           />
         </FormControl>
-        <Button
-          mt={4}
-          variantColor="teal"
-          isLoading={isSubmitting}
-          type="submit"
-        >
+        <Button mt={4} isLoading={isSubmitting} type="submit">
           Submit
         </Button>
       </form>
-      {links && (
+      {links.url && (
         <Box mt={6}>
-          <Heading pb={3}>Links</Heading>
-          <FormControl>
-            <FormLabel>Short:</FormLabel>
-            <Input onClick={e => e.target.select()} value={links.shortUrl} />
-          </FormControl>
           <FormControl mt={2}>
-            <FormLabel>Long:</FormLabel>
-            <Input onClick={e => e.target.select()} value={links.url} />
+            <Box position="relative">
+              <Input
+                paddingRight={46}
+                onClick={(e) => e.target.select()}
+                value={links.url}
+              />
+              <CopyIcon
+                onClick={onCopyLong}
+                style={{
+                  cursor: "pointer",
+                  position: "absolute",
+                  width: 26,
+                  height: 26,
+                  right: 10,
+                  top: 8,
+                }}
+              />
+            </Box>
           </FormControl>
         </Box>
       )}

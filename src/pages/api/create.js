@@ -1,19 +1,11 @@
 const moment = require("moment-timezone");
-const shortid = require("shortid");
-const fetch = require("node-fetch");
 
-const getFormattedDate = date => {
-  return `${date
-    .utc()
-    .format()
-    .split(/-/)
-    .join("")
-    .split(":")
-    .join("")}`;
+const getFormattedDate = (date) => {
+  return `${date.utc().format().split(/-/).join("").split(":").join("")}`;
 };
 
-exports.handler = async (event, context) => {
-  const data = JSON.parse(event.body);
+export default function handler(req, res) {
+  const data = JSON.parse(req.body);
   let UTCDate;
   if (!data.allDay) {
     const startDate = `${data.eventDate} ${data.startTime
@@ -31,20 +23,6 @@ exports.handler = async (event, context) => {
   }
 
   const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${data.name}&dates=${UTCDate}&details=${data.eventDescription}`;
-  const short = shortid.generate();
 
-  await fetch("https://legitbackend.wtf/gcal_urls", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json"
-    },
-    body: JSON.stringify({ short, long: url })
-  });
-
-  const shortUrl = `https://gcal.dotenv.dev/cal/${short}`;
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ url, shortUrl })
-  };
-};
+  res.status(200).json({ url });
+}

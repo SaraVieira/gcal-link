@@ -1,6 +1,6 @@
 import React from "react";
-import { Select } from "@chakra-ui/core";
-export default props => (
+import { Select } from "@chakra-ui/react";
+export default (props) => (
   <Select {...props}>
     <option value="0000">00:00</option>
     <option value="0030">00:30</option>
